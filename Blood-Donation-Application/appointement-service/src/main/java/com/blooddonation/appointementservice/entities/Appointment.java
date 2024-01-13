@@ -16,10 +16,10 @@ public class Appointment {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "center_id",referencedColumnName = "id")
     private Center center;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "donor_id", referencedColumnName = "id")
     private Donor donor;
 

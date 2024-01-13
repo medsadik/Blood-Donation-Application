@@ -10,18 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/appointment")
 @RequiredArgsConstructor
 public class AppointmentController {
     @Autowired
     private final MakeAppointmentService makeAppointmentService;
 
-    @PostMapping("/make")
+    @PostMapping("/makeAppointment")
     public String makeAppointment(@RequestBody AppointmentRequest appointmentRequest){
         if(makeAppointmentService.checkAppointment(appointmentRequest.getDoner_id())){
-            makeAppointmentService.makeAppointment(appointmentRequest.getSlot(),appointmentRequest.getDoner_id(),
-                    appointmentRequest.getCenter_id());
-            return "Appointment made succefully";
+            if(makeAppointmentService.checkSlotAvailable(appointmentRequest.getCenter_id(), appointmentRequest.getSlot())){
+                makeAppointmentService.makeAppointment(appointmentRequest.getSlot(),appointmentRequest.getDoner_id(),
+                        appointmentRequest.getCenter_id());
+                return "Appointment made succefully";
+            }
+            return "Slot full please choose other one";
         }
         return "You can't make an appointment; you are still in a recovery period.";
     }

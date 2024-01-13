@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -40,6 +41,11 @@ public class MakeAppointmentServiceImpl implements MakeAppointmentService{
             if(daysDifference > 56) return true;
             return false;
         }
+        return true;
+    }
+
+    public boolean checkSlotAvailable(Long center_id, LocalDateTime slot){
+        if(appointmentRepository.countAppointementsBySlot(center_id, slot) > 10L) return false;
         return true;
     }
 }
