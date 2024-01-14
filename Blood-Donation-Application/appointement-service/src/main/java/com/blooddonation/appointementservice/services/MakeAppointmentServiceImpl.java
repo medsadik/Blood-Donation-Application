@@ -40,14 +40,11 @@ public class MakeAppointmentServiceImpl implements MakeAppointmentService{
         return appointmentRepository.save(appointment);
     }
 
-    public boolean checkAppointment(Long donor_id){
-        if(appointmentRepository.findLastAppointmentByDonorId(donor_id).isPresent()){
-            Appointment appointment = appointmentRepository.findLastAppointmentByDonorId(donor_id).get();
-            long daysDifference = ChronoUnit.DAYS.between(appointment.getSlot(), LocalDateTime.now());
-            if(daysDifference > 56) return true;
-            return false;
-        }
-        return true;
+    public boolean canMakeAppointment(Long donor_id){
+        String serviceAUrl = "http://127.0.0.1:8081/api/donations/donorValid/"+donor_id;
+        ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(serviceAUrl,Boolean.class);
+        boolean response = responseEntity.getBody();
+        return response;
     }
 
     public boolean checkSlotAvailable(Long center_id, LocalDateTime slot){

@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/donations")
+@CrossOrigin(origins ="*")
 public class DonationController {
     @Autowired
     private DonationService donationService;
@@ -32,5 +33,9 @@ public class DonationController {
     @GetMapping("/getTodaysDonation")
     public List<Donation> getTodaysDonations(){
         return donationService.getTodaysDonations();
+    }
+    @GetMapping("/donorValid/{donorId}")
+    public boolean isDonorValid(@PathVariable Long donorId){
+        return !donationService.haveDonationInPast56(donorId);
     }
 }

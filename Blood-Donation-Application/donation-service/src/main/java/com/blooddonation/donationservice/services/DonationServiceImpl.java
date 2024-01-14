@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -39,5 +41,15 @@ public class DonationServiceImpl implements DonationService{
 
     public List<Donation> getTodaysDonations(){
         return donationRepository.findByDonationDate(LocalDate.now());
+    }
+
+    public boolean haveDonationInPast56(Long donor_id){
+        if(donationRepository.findLastDonationByDonorId(donor_id).isPresent()){
+            Donation donation = donationRepository.findLastDonationByDonorId(donor_id).get();
+            long daysDifference = ChronoUnit.DAYS.between(donation.getDonationDate(), LocalDate.now());
+            if(daysDifference > 56) return false;
+            return true;
+        }
+        return false;
     }
 }
