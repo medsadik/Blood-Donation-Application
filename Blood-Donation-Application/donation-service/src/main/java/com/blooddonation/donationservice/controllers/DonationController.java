@@ -1,6 +1,7 @@
 package com.blooddonation.donationservice.controllers;
 
 import com.blooddonation.donationservice.dto.DonationRequest;
+import com.blooddonation.donationservice.dto.DonationValidationRequest;
 import com.blooddonation.donationservice.entities.Donation;
 import com.blooddonation.donationservice.services.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class DonationController {
         return "Donation sevaed";
     }
     @PutMapping("/validatedDonation")
-    public String validateDonation(@RequestBody DonationRequest donationRequest){
-        donationService.validateDonation(donationRequest.getDonor_id(),donationRequest.getCenter_id(),donationRequest.getBag_ref());
+    public String validateDonation(@RequestBody DonationValidationRequest donationValidationRequest){
+        donationService.validateDonation(donationValidationRequest.getDonor_id(),donationValidationRequest.getCenter_id(),donationValidationRequest.getExpiration());
         return "Donation validated";
     }
     @GetMapping("/userHistory/{donor_id}")
