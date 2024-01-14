@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -20,6 +19,6 @@ public class Donation {
     private Long center_id;
     @Id
     private Long donor_id;
-    private LocalDate donation_date;
+    private LocalDate donationDate;
     private Long bag_refenrence;
 }
