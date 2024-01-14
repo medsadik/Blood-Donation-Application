@@ -17,4 +17,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     Optional<Appointment> findLastAppointmentByDonorId(@Param("donorId") Long donorId);
     @Query("SELECT COUNT(e) FROM Appointment e WHERE e.center.id = :centerId AND e.slot = :slot")
     Long countAppointementsBySlot(@Param("centerId") Long centerId, @Param("slot") LocalDateTime slot);
+    @Query("SELECT a FROM Appointment a WHERE a.donor.id = :donorId")
+    List<Appointment> findAppointmentByDonor(@Param("donorId") Long donorId);
+    @Query("SELECT a FROM Appointment a WHERE a.center.id = :centerId")
+    List<Appointment> findAppointmentByCenter(@Param("centerId") Long centerId);
 }

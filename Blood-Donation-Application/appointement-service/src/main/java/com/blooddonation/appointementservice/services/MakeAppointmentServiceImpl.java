@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -75,5 +76,24 @@ public class MakeAppointmentServiceImpl implements MakeAppointmentService{
 
         String response = responseEntity.getBody();
         System.out.println("Service B received response from Service A: " + response);
+    }
+
+    public Appointment updateAppointment(LocalDateTime slot, Long id){
+        Appointment appointment = appointmentRepository.findById(id).get();
+        appointment.setSlot(slot);
+        return appointmentRepository.save(appointment);
+    }
+
+    public void deleteAppointment(Long id){
+        Appointment appointment = appointmentRepository.findById(id).get();
+        appointmentRepository.delete(appointment);
+    }
+
+    public List<Appointment> getDonorAppointments(Long donor_id){
+        return appointmentRepository.findAppointmentByDonor(donor_id);
+    }
+
+    public List<Appointment> getCenterAppointments(Long center_id){
+        return appointmentRepository.findAppointmentByCenter(center_id);
     }
 }
