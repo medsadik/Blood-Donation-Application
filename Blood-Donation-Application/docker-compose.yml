@@ -1,0 +1,62 @@
+version: '3'
+services:
+
+  appointment-service:
+    image: appointment-service-image
+    build:
+      context: ./appointement-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysql-container:3307/appointementDb",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "root",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    depends_on:
+      - mysql-container
+
+  donation-service:
+    image: donation-service-image
+    build:
+      context: ./donation-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysql-container:3307/donationDB",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "root",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    depends_on:
+      - mysql-container
+
+  inventory-service:
+    image: inventory-service-image
+    build:
+      context: ./inventory-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysql-container:3307/inventorydb",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "root",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    depends_on:
+      - mysql-container
+
+  mysql-container:
+    image: mysql:latest
+    ports:
+      - "3307:3307"
+    environment:
+      MYSQL_DATABASE: "appointementDb"
+      MYSQL_DATABASE: "donationDB"
+      MYSQL_DATABASE: "inventorydb"
+      MYSQL_USER: root1
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root

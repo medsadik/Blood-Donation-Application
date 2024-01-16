@@ -22,7 +22,5 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "donor_id", referencedColumnName = "id")
     private Donor donor;
-
     private LocalDateTime slot;
-
 }
