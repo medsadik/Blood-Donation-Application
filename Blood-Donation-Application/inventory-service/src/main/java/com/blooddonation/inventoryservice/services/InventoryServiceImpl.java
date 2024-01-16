@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
@@ -18,5 +19,10 @@ public class InventoryServiceImpl implements InventoryService {
         bloodBag.setType(BloodType.valueOf(bloodType));
         bloodBag.setExpiration(expiration);
         return bloodBagRepository.save(bloodBag);
+    }
+
+    @Override
+    public List<BloodBag> getCenterBags(Long center_id){
+        return null;
     }
 }
